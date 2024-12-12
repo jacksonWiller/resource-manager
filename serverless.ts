@@ -85,7 +85,12 @@ const serverlessConfiguration: AWS = {
     },
     lambdaHashingVersion: '20201221',
   },
-  functions: { hello },
+  functions: {
+    hello: {
+      ...hello,
+      handler: 'src/functions/hello/handler.main',
+    },
+  },
 };
 
 module.exports = serverlessConfiguration;
