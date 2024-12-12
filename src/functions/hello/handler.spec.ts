@@ -13,8 +13,7 @@ describe('Hello Handler', () => {
     const response = await handler(event, context, callback);
 
     expect(response).toMatchObject({
-      body:
-        '{"message":"Hello Frederic, welcome to the exciting Serverless world!","event":{"headers":{"Content-Type":"application/json"},"body":{"name":"Frederic"}}}',
+      body: '{"message":"Hello Frederic, welcome to the exciting Serverless world!","event":{"headers":{"Content-Type":"application/json"},"body":{"name":"Frederic"}}}',
       statusCode: 200,
     });
   });
