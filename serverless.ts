@@ -5,16 +5,22 @@ import { hello } from './src/functions';
 
 const serverlessConfiguration: AWS = {
   service: 'serverless-typescript',
-  frameworkVersion: '2',
+  frameworkVersion: '3',
   useDotenv: true,
   custom: {
     webpack: {
       webpackConfig: './webpack.config.js',
       includeModules: true,
-      packager: 'yarn',
+      packager: 'npm',
     },
-    stage: '${opt:stage, self:provider.stage}',
-    stages: ['staging', 'production'],
+    localstack: {
+      stages: ['local'],
+      host: 'http://localhost',
+      edgePort: 4566,
+      autoStart: false, // LocalStack geralmente já roda separadamente
+    },
+    stage: '${opt:stage, "local"}',
+    stages: ['local', 'staging', 'production'],
     prune: {
       automatic: true,
       number: 3,
@@ -49,16 +55,18 @@ const serverlessConfiguration: AWS = {
     },
   },
   plugins: [
+    'serverless-localstack', // Mantenha este plugin no topo
     'serverless-webpack',
     'serverless-offline',
     'serverless-stage-manager',
     'serverless-prune-plugin',
     'serverless-plugin-aws-alerts',
-    'serverless-plugin-canary-deployments', // Remove this if you want to disable Canary Deployments
   ],
   provider: {
     name: 'aws',
-    runtime: 'nodejs14.x',
+    runtime: 'nodejs18.x', // Atualize para uma versão mais recente
+    stage: 'local',
+    region: 'us-east-1',
     iamRoleStatements: [
       {
         Effect: 'Allow',
@@ -81,7 +89,9 @@ const serverlessConfiguration: AWS = {
       },
     },
     environment: {
-      AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      AWS_ACCESS_KEY_ID: 'test',
+      AWS_SECRET_ACCESS_KEY: 'test',
+      AWS_DEFAULT_REGION: 'us-east-1',
     },
     lambdaHashingVersion: '20201221',
   },

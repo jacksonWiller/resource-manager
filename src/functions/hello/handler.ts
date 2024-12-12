@@ -6,6 +6,8 @@ import { middyfy } from '@/libs/lambda';
 
 import schema from './schema';
 
+// pnpm sls invoke local -f hello --path src/functions/hello/mock.json
+
 const hello: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
   event,
 ) => {
