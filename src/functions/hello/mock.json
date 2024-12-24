@@ -2,5 +2,7 @@
   "headers": {
     "Content-Type": "application/json"
   },
-  "body": "{\"name\": \"Jackson Duarte\"}"
+  "body": {
+    "name": "Jackson Duarte"
+  }
 }
