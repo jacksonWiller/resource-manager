@@ -62,7 +62,7 @@ var create = function (event) { return __awaiter(void 0, void 0, void 0, functio
                     }];
             }
             console.log('AKIIIIIIIIIII', event.body);
-            product = JSON.parse(event.body);
+            product = event.body;
             // const product: Product = {
             //     id: event.body.id,
             //     name: event.body.name,

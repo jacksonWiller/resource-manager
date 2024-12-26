@@ -23,7 +23,7 @@ export const create: APIGatewayProxyHandler = async (event) => {
 
     // Parse do body da requisição
 
-    var product = JSON.parse(event.body);
+    const product = event.body;
 
     // const product: Product = {
     //     id: event.body.id,
