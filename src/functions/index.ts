@@ -1,1 +1,1 @@
-export { hello } from './hello/handler';
+export { hello } from './teste/handler';

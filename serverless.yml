@@ -14,5 +14,22 @@ functions:
           path: /
           method: get
 
+  hello2:
+    handler: src/functions/index.hello
+    events:
+      - httpApi:
+          path: /dois
+          method: get
+
+  createProduct:
+    handler: src/functions/product/create/handler.create
+    events:
+      - http:
+          path: /products
+          method: post
+          cors: true
+
+
 plugins:
   - serverless-plugin-typescript
+  - serverless-offline

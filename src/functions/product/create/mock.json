@@ -1,0 +1,9 @@
+{
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "name": "Monitor",
+    "price": 9.00
+  }
+}
