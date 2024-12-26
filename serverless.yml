@@ -3,31 +3,16 @@ frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs18.x
   lambdaHashingVersion: '20201221'
 
 functions:
-  hello:
-    handler: src/functions/teste/handler.hello
+  test:
+    handler: src/functions/test/handler.test
     events:
       - httpApi:
-          path: /
+          path: /test
           method: get
-
-  hello2:
-    handler: src/functions/index.hello
-    events:
-      - httpApi:
-          path: /dois
-          method: get
-
-  createProduct:
-    handler: src/functions/product/create/handler.create
-    events:
-      - http:
-          path: /products
-          method: post
-          cors: true
 
 
 plugins:
