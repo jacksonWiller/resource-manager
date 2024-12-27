@@ -1,6 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { APIGatewayProxyHandler } from 'aws-lambda';
+import { v4 as uuid } from 'uuid';
 
 const client = new DynamoDBClient({
   region: process.env.AWS_REGION || 'us-east-1',
@@ -30,36 +31,46 @@ export const list: APIGatewayProxyHandler = async () => {
 };
 
 // // Create
-// export const create: APIGatewayProxyHandler = async (event) => {
-//   try {
-//     const data = JSON.parse(event.body || '');
-//     const timestamp = new Date().getTime();
+export const create: APIGatewayProxyHandler = async (event) => {
+
+  console.log("event", event.body);
+
+  try{
+
+    const data = event.body;
+
+    console.log("data", data);
+
+    const timestamp = new Date().getTime();
+
+    console.log("timestamp", timestamp);
     
-//     const item = {
-//       id: uuid(),
-//       name: data.name,
-//       price: data.price,
-//       createdAt: timestamp,
-//       updatedAt: timestamp,
-//     };
+    const item = {
+      id: uuid(),
+      name: data.name,
+      price: data.price,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    };
 
-//     await dynamoDb.put({
-//       TableName,
-//       Item: item
-//     }).promise();
+    console.log(item);
 
-//     return {
-//       statusCode: 201,
-//       body: JSON.stringify(item)
-//     };
-//   } catch (error) {
-//     return {
-//       statusCode: 500,
-//       body: JSON.stringify({ error: error.message })
-//     };
-//   }
-// };
+    await dynamoDb.send(new PutCommand({
+      TableName: "serverless-http-api-typescript-dev",
+      Item: item
+    }));
 
+    return {
+      statusCode: 201,
+      body: JSON.stringify(item)
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message })
+    };
+  }
+};
 // // Read (Get One)
 // export const get: APIGatewayProxyHandler = async (event) => {
 //   try {

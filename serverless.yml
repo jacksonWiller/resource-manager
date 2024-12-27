@@ -38,12 +38,12 @@ functions:
           path: products
           method: get
         
-  # createProduct:
-  #   handler: src/functions/product/handler.create
-  #   events:
-  #     - http:
-  #         path: products
-  #         method: post
+  createProduct:
+    handler: src/functions/product/handler.create
+    events:
+      - http:
+          path: products
+          method: post
 
   # getProduct:
   #   handler: src/functions/product/handler.get 

@@ -21,7 +21,8 @@
     "@aws-sdk/lib-dynamodb": "^3.716.0",
     "@middy/http-json-body-parser": "^1.5.0",
     "aws-lambda": "^1.0.7",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.19",
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@middy/core": "^6.0.0",
@@ -30,6 +31,7 @@
     "@types/jest": "^26.0.20",
     "@types/lodash": "^4.17.13",
     "@types/node": "^14.14.6",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^4.13.0",
     "@typescript-eslint/parser": "^4.13.0",
     "aws-sdk": "^2.1692.0",
