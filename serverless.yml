@@ -5,6 +5,23 @@ provider:
   name: aws
   runtime: nodejs18.x
   lambdaHashingVersion: '20201221'
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: 
+            - Fn::GetAtt: [ ProductsTable, Arn ]
 
 functions:
   test:
@@ -13,6 +30,57 @@ functions:
       - httpApi:
           path: /test
           method: get
+
+  listProducts:
+    handler: src/functions/product/handler.list
+    events:
+      - http:
+          path: products
+          method: get
+        
+  # createProduct:
+  #   handler: src/functions/product/handler.create
+  #   events:
+  #     - http:
+  #         path: products
+  #         method: post
+
+  # getProduct:
+  #   handler: src/functions/product/handler.get 
+  #   events:
+  #     - http:
+  #         path: products/{id}
+  #         method: get
+
+
+
+  # updateProduct:
+  #   handler: src/functions/product/handler.update
+  #   events:
+  #     - http:
+  #         path: products/{id}
+  #         method: put
+
+  # deleteProduct:
+  #   handler: src/functions/product/handler.remove
+  #   events:
+  #     - http:
+  #         path: products/{id}
+  #         method: delete
+
+resources:
+  Resources:
+    ProductsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
 
 
 plugins:
