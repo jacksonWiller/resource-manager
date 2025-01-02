@@ -1,11 +1,14 @@
+# Serverless directories
+.serverless
+.build/
+/.build
+/.build/
+**/build
+
 # package directories
 node_modules
 node_modules2
 jspm_packages
-
-# Serverless directories
-.serverless
-.build
 
 # Webpack directories
 .webpack
@@ -19,3 +22,4 @@ coverage
 # Dotenv
 !.env.example
 .env*
+

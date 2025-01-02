@@ -1,7 +1,6 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { APIGatewayProxyHandler } from 'aws-lambda';
-import { v4 as uuid } from 'uuid';
 
 const client = new DynamoDBClient({
   region: process.env.AWS_REGION || 'us-east-1',
@@ -9,6 +8,18 @@ const client = new DynamoDBClient({
 
 const dynamoDb = DynamoDBDocumentClient.from(client);
 const TableName = process.env.DYNAMODB_TABLE || 'Products';
+
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description?: string;
+  category?: string;
+  stock?: number;
+  isActive?: boolean;
+  createdAt: number;
+  updatedAt: number;
+}
 
 export const list: APIGatewayProxyHandler = async () => {
   try {
@@ -33,36 +44,30 @@ export const list: APIGatewayProxyHandler = async () => {
 // // Create
 export const create: APIGatewayProxyHandler = async (event) => {
 
-  console.log("event", event.body);
-
   try{
 
-    const data = event.body;
+    const body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
 
-    console.log("data", data);
+    const { name, price } = body;
 
     const timestamp = new Date().getTime();
-
-    console.log("timestamp", timestamp);
     
-    const item = {
-      id: uuid(),
-      name: data.name,
-      price: data.price,
+    const product: Product = {
+      id: 1234214 + timestamp.toString(),
+      name,
+      price,
       createdAt: timestamp,
       updatedAt: timestamp,
     };
 
-    console.log(item);
-
     await dynamoDb.send(new PutCommand({
       TableName: "serverless-http-api-typescript-dev",
-      Item: item
+      Item: product
     }));
 
     return {
       statusCode: 201,
-      body: JSON.stringify(item)
+      body: JSON.stringify(product)
     };
   } catch (error) {
     return {

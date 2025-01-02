@@ -1,4 +1,4 @@
-service: serverless-http-api-typescript
+service: resource-manager
 frameworkVersion: '3'
 
 provider:
@@ -22,14 +22,45 @@ provider:
             - dynamodb:DeleteItem
           Resource: 
             - Fn::GetAtt: [ ProductsTable, Arn ]
+        - Effect: Allow
+          Action:
+            - s3:CreateBucket
+            - s3:DeleteBucket 
+            - s3:ListBuckets
+            - s3:HeadBucket
+            - s3:PutBucketTagging
+            - s3:GetBucketTagging
+          Resource: "*"
 
 functions:
+
   test:
     handler: src/functions/test/handler.test
     events:
       - httpApi:
           path: /test
           method: get
+
+  createBucket:
+    handler: src/functions/bucket/handler.createBucket
+    events:
+      - http:
+          path: /buckets
+          method: post
+  
+  getAllBuckets:
+    handler: src/functions/bucket/handler.getAllBuckets
+    events:
+      - http:
+          path: /buckets
+          method: get
+  
+  deleteBucket:
+    handler: src/functions/bucket/handler.deleteBucket
+    events:
+      - http:
+          path: /buckets
+          method: delete
 
   listProducts:
     handler: src/functions/product/handler.list
@@ -73,7 +104,7 @@ resources:
     ProductsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+        TableName: Product2
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
