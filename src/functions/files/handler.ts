@@ -7,13 +7,13 @@ const BUCKET_NAME = process.env.IMAGE_BUCKET || 'seu-bucket-de-imagens';
 export const uploadImage = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
     const { fileName, fileContent } = JSON.parse(event.body || '{}');
-    
+
     const params = {
       Bucket: 'catalog-images54361234532',
       Key: fileName,
       Body: Buffer.from(fileContent, 'base64'),
       ContentEncoding: 'base64',
-      ContentType: 'png',
+      ContentType: fileContent.mimetype,
     };
 
     await s3.putObject(params).promise();
@@ -32,7 +32,7 @@ export const uploadImage = async (event: APIGatewayProxyEvent): Promise<APIGatew
 
 export const getImage = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
-    const key = event.pathParameters?.key;
+    const key = 'teste2.png';
 
     if (!key) {
       return {
@@ -42,11 +42,15 @@ export const getImage = async (event: APIGatewayProxyEvent): Promise<APIGatewayP
     }
 
     const params = {
-      Bucket: BUCKET_NAME,
-      Key: key,
+      Bucket: 'catalog-images54361234532',
+      Key: 'teste2.png',
     };
 
+    console.log(params);
+
     const data = await s3.getObject(params).promise();
+
+    console.log(data);
 
     return {
       statusCode: 200,
