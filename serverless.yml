@@ -30,6 +30,10 @@ provider:
             - s3:HeadBucket
             - s3:PutBucketTagging
             - s3:GetBucketTagging
+            - s3:PutObject
+            - s3:GetObject
+            - s3:ListBucket
+            - s3:DeleteObject
           Resource: "*"
 
 functions:
@@ -40,6 +44,34 @@ functions:
       - httpApi:
           path: /test
           method: get
+
+  uploadImage:
+    handler: src/functions/files/handler.uploadImage
+    events:
+      - http:
+          path: images
+          method: post
+
+  getImage:
+    handler: src/functions/files/handler.getImage
+    events:
+      - http:
+          path: images/{key}
+          method: get
+
+  listImages:
+    handler: src/functions/files/handler.listImages
+    events:
+      - http:
+          path: images
+          method: get
+
+  deleteImage:
+    handler: src/functions/files/handler.deleteImage
+    events:
+      - http:
+          path: images/{key}
+          method: delete
 
   createBucket:
     handler: src/functions/bucket/handler.createBucket
