@@ -1,10 +1,11 @@
-name: Deploy main branch
+name: Resource Manager
 
 on:
   workflow_dispatch:
   push:
     branches:
       - main
+      - dev
 
 env:
   _ENVIRONMENT: development
@@ -29,7 +30,7 @@ jobs:
       - name: Npm install
         run: npm install
       - name: Serverless deploy
-        uses: serverless/github-action@master
+        uses: serverless/github-action@v1
         with:
           args: deploy
         env:
