@@ -3,7 +3,7 @@ name: Deploy Resource Manager
 on:
   workflow_dispatch:
   push:
-    branches: [main, dev]
+    branches: main
 
 env:
   _STAGE: dev
