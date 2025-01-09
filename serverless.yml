@@ -136,7 +136,7 @@ resources:
     ProductsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Product4
+        TableName: Files
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
