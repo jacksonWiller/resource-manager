@@ -1,4 +1,4 @@
-name: Deploy main branch
+name: Deploy Application
 on:
   workflow_dispatch:
   push:
