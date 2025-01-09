@@ -5,7 +5,7 @@ provider:
   name: aws
   runtime: nodejs18.x
   lambdaHashingVersion: '20201221'
-  stage: ${opt:stage, 'prod'}
+  stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
   environment:
     DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
@@ -39,7 +39,7 @@ provider:
 functions:
 
   test:
-    handler: src/functions/test/handler.test
+    handler: src/functions/test-lambda/handler.test
     events:
       - httpApi:
           path: /test
@@ -144,7 +144,6 @@ resources:
           - AttributeName: id
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-
 
 plugins:
   - serverless-plugin-typescript
