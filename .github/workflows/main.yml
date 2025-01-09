@@ -7,8 +7,9 @@ on:
       - master
       - staging
       - dev
+
 env:
-  _ENVIRONMENT: development
+  _STAGE: dev
   _REPOSITORY_NAME: github-action-nodejs-serverless
 jobs:
   DeployServerless:
