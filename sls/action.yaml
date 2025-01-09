@@ -9,7 +9,7 @@ prepare: &prepare
   - if [ $BITBUCKET_DEPLOYMENT_ENVIRONMENT = "staging" ]; then git merge origin/master --no-edit || exit $CONFLICT_EXIT_CODE; fi
   - npm ci
 
-build-deploy: &build-deploy # aws config
+build-deploy: &build-deploy # aws configg
   - export AWS_WEB_IDENTITY_TOKEN_FILE=$(pwd)/web-identity-token
   - echo $BITBUCKET_STEP_OIDC_TOKEN > $AWS_WEB_IDENTITY_TOKEN_FILE
   - aws configure set web_identity_token_file $AWS_WEB_IDENTITY_TOKEN_FILE --profile $STAGE-bgc

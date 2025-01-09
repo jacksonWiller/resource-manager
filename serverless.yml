@@ -5,7 +5,7 @@ provider:
   name: aws
   runtime: nodejs18.x
   lambdaHashingVersion: '20201221'
-  stage: ${opt:stage, 'dev'}
+  stage: ${opt:stage, 'prod'}
   region: ${opt:region, 'us-east-1'}
   environment:
     DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
@@ -136,7 +136,7 @@ resources:
     ProductsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Product2
+        TableName: Files
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
