@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+      - master
+      - staging
+      - dev
 env:
   _ENVIRONMENT: development
   _REPOSITORY_NAME: github-action-nodejs-serverless
